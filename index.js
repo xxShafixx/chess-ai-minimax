@@ -17,8 +17,40 @@ const minimaxRoot = function (game, depth, maximisingPlayer) {
       bestMoveFound = game.moves()[i];
     }
   }
+  // Print Pawn Evaluation Table
+  console.log("Pawn Evaluation Table:");
+  console.log("----------------------");
+  console.log("Square  | White Value  |   Black Value");
+  console.log("-----------------------------------");
+
+  // Iterate over pawnTable and print each entry
+  if (pawnTable.length !== 0) {
+    pawnTable.forEach(({ square, wValue, bValue }) => {
+      if (square.name !== undefined)
+        console.log(`${square.name}     | ${wValue}          | ${bValue}`);
+      // console.log(square);
+    });
+    console.log("\n");
+  }
+
+  // Print Knight Evaluation Table
+  console.log("Knight Evaluation Table:");
+  console.log("------------------------");
+  console.log("Square  | White Value  |   Black Value");
+  console.log("-----------------------------------");
+
+  // Iterate over knightTable and print each entry
+  if (knightTable.length !== 0) {
+    knightTable.forEach(({ square, wValue, bValue }) => {
+      if (square.name !== undefined)
+        console.log(`${square.name}     | ${wValue}          | ${bValue}`);
+      // console.log(3);
+    });
+    console.log("\n");
+  }
   return bestMoveFound;
 };
+
 
 function minimax(position, depth, alpha, beta, maximisingPlayer) {
   if (depth === 0) {
@@ -362,37 +394,6 @@ const evaluateBoard = function (board) {
 
   return totalEvaluation;
 };
-
-// Print Pawn Evaluation Table
-console.log("Pawn Evaluation Table:");
-console.log("----------------------");
-console.log("Square  | White Value  |   Black Value");
-console.log("-----------------------------------");
-
-// Iterate over pawnTable and print each entry
-if (pawnTable.length !== 0) {
-  pawnTable.forEach(({ square, wValue, bValue }) => {
-    console.log(`${square.name}     | ${wValue}          | ${bValue}`);
-    // console.log(square);
-  });
-  console.log("\n");
-}
-
-// Print Knight Evaluation Table
-console.log("Knight Evaluation Table:");
-console.log("------------------------");
-console.log("Square  | White Value  |   Black Value");
-console.log("-----------------------------------");
-
-// Iterate over knightTable and print each entry
-if (knightTable.length !== 0) {
-  knightTable.forEach(({ square, wValue, bValue }) => {
-    console.log(`${square.name}     | ${wValue}          | ${bValue}`);
-    // console.log(3);
-  });
-  console.log("\n");
-}
-
 
 
 const getPieceValue = function (piece, square) {
