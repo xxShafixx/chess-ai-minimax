@@ -1,4 +1,4 @@
-const minimaxRoot = function(game, depth, maximisingPlayer) {
+const minimaxRoot = function (game, depth, maximisingPlayer) {
   var bestMove = -Infinity;
   var bestMoveFound;
 
@@ -68,6 +68,8 @@ const whitePawnMoves = [
 
 const blackPawnMoves = whitePawnMoves.slice().reverse();
 
+
+
 const whiteKnightMoves = [
   [-50, -40, -30, -30, -30, -30, -40, -50],
   [-40, -20, 0, 0, 0, 0, -20, -40],
@@ -80,6 +82,9 @@ const whiteKnightMoves = [
 ];
 
 const blacKnightMoves = whiteKnightMoves.slice().reverse();
+
+
+
 
 const whiteBishopMoves = [
   [-20, -10, -10, -10, -10, -10, -10, -20],
@@ -339,7 +344,7 @@ function materialBalance(board) {
 }
 
 
-const evaluateBoard = function(board) { 
+const evaluateBoard = function (board) {
   let totalEvaluation = 0;
 
   // Material Balance
@@ -354,17 +359,47 @@ const evaluateBoard = function(board) {
   } else if (board.in_draw()) {
     return 0;
   }
-  
+
   return totalEvaluation;
 };
 
+// Print Pawn Evaluation Table
+console.log("Pawn Evaluation Table:");
+console.log("----------------------");
+console.log("Square  | White Value  |   Black Value");
+console.log("-----------------------------------");
+
+// Iterate over pawnTable and print each entry
+if (pawnTable.length !== 0) {
+  pawnTable.forEach(({ square, wValue, bValue }) => {
+    console.log(`${square.name}     | ${wValue}          | ${bValue}`);
+    // console.log(square);
+  });
+  console.log("\n");
+}
+
+// Print Knight Evaluation Table
+console.log("Knight Evaluation Table:");
+console.log("------------------------");
+console.log("Square  | White Value  |   Black Value");
+console.log("-----------------------------------");
+
+// Iterate over knightTable and print each entry
+if (knightTable.length !== 0) {
+  knightTable.forEach(({ square, wValue, bValue }) => {
+    console.log(`${square.name}     | ${wValue}          | ${bValue}`);
+    // console.log(3);
+  });
+  console.log("\n");
+}
 
 
-const getPieceValue = function(piece, square) {
+
+const getPieceValue = function (piece, square) {
   if (piece === null) {
     return 0;
   }
-  const getAbsoluteValue = function(piece) {
+  const getAbsoluteValue = function (piece) {
     let value;
 
     if (piece.type === "p") {
@@ -384,7 +419,7 @@ const getPieceValue = function(piece, square) {
     return value;
   };
 
-  const getSquareValue = function(piece, square) {
+  const getSquareValue = function (piece, square) {
     if (piece.color === "w") {
       if (piece.type === "p") {
         let val = pawnTable.find(obj => obj.square.name === square);
@@ -437,8 +472,6 @@ const getPieceValue = function(piece, square) {
   }
 };
 
-/*Chess Board Stuff*/
-/*-----------------*/
 
 function onDragStart(source, piece) {
   if (piece.charAt(0) === "b") {
@@ -458,7 +491,7 @@ function onDrop(source, target) {
     return "snapback";
   } else {
     displayLoading(true);
-    setTimeout(function() {
+    setTimeout(function () {
       makeBestMove(game, 3);
       displayLoading(false);
       chessboard.position(game.fen());
@@ -513,7 +546,7 @@ const chessboard = Chessboard("chessboard", config);
 function makeBestMove(game, depth) {
   let bestMove = minimaxRoot(game, depth, true);
   game.move(bestMove);
-  setTimeout(function() {
+  setTimeout(function () {
     chessboard.position(game.fen());
   }, 100);
 }
@@ -527,3 +560,28 @@ function displayLoading(bool) {
     loading.style.visibility = "hidden";
   }
 }
+
+
+// Populate pawnTable with evaluation values for each square
+for (let rank = 0; rank < 8; rank++) {
+  for (let file = 0; file < 8; file++) {
+    const wValue = whitePawnMoves[rank][file];
+    const bValue = blackPawnMoves[rank][file];
+    const squareName = String.fromCharCode(97 + file) + (8 - rank);
+    pawnTable.push({ square: squareName, wValue, bValue });
+  }
+}
+
+
+// Populate knightTable with evaluation values for each square
+for (let rank = 0; rank < 8; rank++) {
+  for (let file = 0; file < 8; file++) {
+    const wValue = whiteKnightMoves[rank][file];
+    const bValue = blacKnightMoves[rank][file];
+    const squareName = String.fromCharCode(97 + file) + (8 - rank);
+    knightTable.push({ square: squareName, wValue, bValue });
+  }
+}
+
+
+
